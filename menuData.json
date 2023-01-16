@@ -1,0 +1,13 @@
+[
+    {
+        "id": 1,
+        "menuName" : "McDowell's Jr",
+        "price" : 4.25
+    },
+    {
+        "id": 2,
+        "menuName" : "McDowell's",
+        "price" : 8.50
+        
+    }
+]
