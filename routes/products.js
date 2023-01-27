@@ -1,6 +1,7 @@
-var router = require('express').Router();
+var router = require("express").Router();
+const { getAllMenus, getSigleMenu } = require("../controllers/menusController");
 
-router.get('/all-menus', require('../controllers/menus'));
-router.get('/single-menu/:idMenu', require('../controllers/sigleMenu'));
+router.get("/all-menus", getAllMenus);
+router.get("/:id", getSigleMenu);
 
 module.exports = router;
