@@ -1,4 +1,3 @@
-let menus = require("./menuData.json")
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -13,7 +12,6 @@ app.get("/menu", (require,response) =>{
   response.status(200).json(menus)
 });
 
-const port = 3001;
 
 
 app.listen(port, () => {
