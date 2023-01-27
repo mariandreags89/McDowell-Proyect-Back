@@ -9,7 +9,7 @@ app.use(
   })
 );
 
-app.get("/compras", (require,response) =>{
+app.get("/menu", (require,response) =>{
   response.status(200).json(menus)
 });
 
