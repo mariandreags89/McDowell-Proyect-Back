@@ -19,6 +19,7 @@ class Order {
       this.email = email;
       this.num_line = num_line;
       this.id_product = id_product;
+      this.units = id_units;
       this.price = price;
       this.total_line = total_line;
       this.coment = coment;
@@ -33,11 +34,12 @@ class OrdersManager {
       const orders = convertOrderDataToObjects(queryResponse.rows);
       return orders;
     }
-    static async getId(id) {
+  static async getId(id) {
       const queryResponse = await pgClient.query("SELECT * FROM orders WHERE id_num_order=$1",[id])
-      const products = convertOrderDataToObjects(queryResponse.rows);
-      return products;
+      const orders = convertOrderDataToObjects(queryResponse.rows);
+      return orders;
   }
+  
   
     static async createOrder() {
       const queryresponse = await pgClient.query
@@ -48,7 +50,7 @@ class OrdersManager {
   }
   
   function convertOrderObjectToData(order) {
-    return `'${Id_num_order.id}', '${order_date}', '${order_to_go}','${email}','${num_line}','${id_product}','${price}','${total_line}','${coment}'`;
+    return `'${Id_num_order.id}', '${order_date}', '${order_to_go}','${email}','${num_line}','${id_product}','${units}','${price}','${total_line}','${coment}'`;
   }
   function convertOrderDataToObjects(data) {
     let orders = [];
@@ -61,6 +63,7 @@ class OrdersManager {
           (email = objectData.email),
           (num_line = objectData.num_line),
           (id_product = objectData.id_product),
+          (units = objectData.units),
           (price = objectData.price),
           (total_line = objectData.total_line),
           (coment = objectData.pricomentce)
