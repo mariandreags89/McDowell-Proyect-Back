@@ -1,7 +1,7 @@
 startConnection= require("./connection");
 
 
-class Menu {
+class Product {
   constructor(
     id_product = null,
     name = null,
@@ -45,7 +45,7 @@ function convertProductDataToObjects(data) {
   let products = [];
   for (const objectData of data) {
     products.push(
-      new Menu(
+      new Product(
         (id_product = objectData.id_product),
         (name = objectData.name),
         (description = objectData.description),

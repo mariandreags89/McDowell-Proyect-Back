@@ -1,10 +1,8 @@
 var router = require('express').Router();
-const { getAllOrders, getIdOrder, setOrders, createOrder} = require('../controllers/ordersController')
 
-router.get('/get-orders', getAllOrders);
-router.get('/:id', getIdOrder);
-router.post('/create-order', createOrder);
-router.patch('/set-order/:id', setOrders);
+router.get('/get-orders', require('../controllers/ordersControllers/getOrders'));
+router.post('/create-order', require('../controllers/ordersControllers/createOrder'));
+router.patch('/set-order/:id', require('../controllers/ordersControllers/setOrders'));
 
 
 module.exports = router;
