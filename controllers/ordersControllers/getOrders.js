@@ -1,7 +1,9 @@
 const OrdersManager = require("../../models/orders");
 
-const getOrders = (re, res) => {
-  res.status(200).end();
+
+const getOrders = async (req, res) => {
+  const response = await OrdersManager.getAll();
+  res.status(200).json(response);
 };
 
 module.exports = getOrders;

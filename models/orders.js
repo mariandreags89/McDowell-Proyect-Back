@@ -19,7 +19,7 @@ class Order {
       this.email = email;
       this.num_line = num_line;
       this.id_product = id_product;
-      this.units = id_units;
+      this.units = units;
       this.price = price;
       this.total_line = total_line;
       this.coment = coment;
