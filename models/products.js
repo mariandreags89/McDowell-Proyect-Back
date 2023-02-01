@@ -1,5 +1,4 @@
-startConnection= require("./connection");
-
+startConnection = require("./connection");
 
 class Product {
   constructor(
@@ -21,7 +20,7 @@ class Product {
   }
 }
 
-pgClient = startConnection()
+pgClient = startConnection();
 
 class ProductsManager {
   static async getAll() {
@@ -31,16 +30,34 @@ class ProductsManager {
   }
 
   static async getSingle(id) {
-    const queryResponse = await pgClient.query("SELECT * FROM products WHERE id_product=$1",[id])
+    const queryResponse = await pgClient.query(
+      "SELECT * FROM products WHERE id_product=$1",
+      [id]
+    );
     const products = convertProductDataToObjects(queryResponse.rows);
     return products;
   }
 
+  static async pacthProduct(order) {
+    const queryResponse = await pgClient.query("SELECT * FROM products");
+    let products = convertProductDataToObjects(queryResponse.rows);
+    for (let i = 0; i < products.length; i++) {
+      products = products.map((prod) =>
+        order[i].id_product === prod.id_product
+          ? { ...prod, available_stock: available_stock - order[i].quantity }
+          : prod
+      );
+    }
+    products.map((prod)=>  {return   pgClient.query( "UPDATE products SET available_stock=$1 WHERE id_product=$2",
+    [prod.available_stock,prod.id_product] )})
+    
+  }
 }
 
 function convertProductObjectToData(product) {
   return `'${product.id}', '${product.name}', '${product.price}'`;
 }
+
 function convertProductDataToObjects(data) {
   let products = [];
   for (const objectData of data) {
@@ -58,6 +75,5 @@ function convertProductDataToObjects(data) {
   }
   return products;
 }
-
 
 module.exports = ProductsManager;

@@ -1,9 +1,9 @@
 const OrdersManager = require("../../models/orders");
 
-const createOrder = async (re, res) => {
-  const newOder = req.body;
-  const response = await OrdersManager.createOrder(newOder);
-  res.status(201).end();
+const createOrder = async (req, res) => {
+  const order = req.body;
+  const response = await OrdersManager.createOrder(order);
+  res.status(201).json(response);
 };
 
 module.exports = createOrder;
