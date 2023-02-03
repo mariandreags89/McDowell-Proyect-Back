@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const jwt = require('jsonwebtoken')
 
 
@@ -15,6 +16,12 @@ function signInController(req, res){
 
     res.status(201).json()
 
+=======
+function signInController(req, res){
+    res.status(201).json()
+
+
+>>>>>>> 31bd0d00e265ce3a9a7ecbe3611fec98527f71ee
 }
 
 module.exports = signInController
