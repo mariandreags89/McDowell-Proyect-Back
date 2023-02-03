@@ -3,5 +3,6 @@ router.use('/products', require('./products'));
 router.use('/users', require('./users'));
 router.use('/orders', require('./orders'));
 router.use('/pdf', require('./pdf'));
+router.use('/email', require('./email'));
 
 module.exports = router;

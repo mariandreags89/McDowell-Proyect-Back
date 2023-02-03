@@ -25,8 +25,8 @@ const getpdfOrder = async (req, res) => {
   for (const producto of productos) {
       // Aumentar el total
       const totalProducto = producto.units * producto.price;
-      date = producto.order_date;
-      num = producto.id_num_order;
+      date = producto.fecha;
+      num = producto.id_order;
       subtotal += totalProducto;
       // Y concatenar los productos
       tabla += `<tr>

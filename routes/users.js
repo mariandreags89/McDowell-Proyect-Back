@@ -1,5 +1,5 @@
 var router = require('express').Router();
 
-router.post('/signin', require('../controllers/uerControllers/signIn'));
+router.post('/signin', require('../controllers/userControllers/signIn'));
 
 module.exports = router;
