@@ -91,7 +91,6 @@ const postEmailOrder = async (req, res) => {
         from: '"McDowell Proyecto" <mcdowellproyecto@gmail.com>', // sender address,
         to: `${email}`,
         subject: `Envio ticket numero: ${id}`,
-        // text: 'Hello World'
         html: contentHTML,
         attachments: [
             {

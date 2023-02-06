@@ -1,5 +1,5 @@
 const { response } = require('express');
-const PdfManager = require('../models/pdf')
+const PdfManager = require('../../models/pdf')
 
 
 
