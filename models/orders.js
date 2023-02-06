@@ -2,31 +2,15 @@ startConnection = require("./connection");
 
 class Order {
     constructor(
-      id_order=null,
-      fecha=null, 
+      id_num_order=null,
+      order_date=null, 
       id_user=null,
       order_mail=null, 
-      id_product=null, 
-      name=null, 
-      units=null, 
-      price=null, 
-      total_line=null,
-      coment=null,
-      id_status=null,
-      description=null
     ) {
-      this.id_order = id_order;
-      this.fecha = fecha;
-      this.id_user = id_user;
+      this.id_num_order = id_num_order;
+      this.order_date = order_date;
       this.order_mail = order_mail;
-      this.id_product = id_product;
-      this.name = name;
-      this.units = units;
-      this.price = price;
-      this.total_line = total_line;
-      this.coment = coment;
-      this.id_status = id_status;
-      this.description = description;
+      this.id_user = id_user;
     }
 }
 
@@ -35,45 +19,38 @@ pgClient = startConnection()
 class OrdersManager {
   
   static async getAll() {
-      const queryResponse = await pgClient.query("select * from (select pedidos.*,estado.id_status,estado.description from (select products_in_order.id_order,orders.order_date fecha, orders.order_mail,orders.id_user,products_in_order.id_product, products.name, products_in_order.units, products_in_order.price, (products_in_order.units * products_in_order.price)total_line, products_in_order.coment from products_in_order right join orders on orders.id_num_order= products_in_order.id_order inner join products on products.id_product=products_in_order.id_product	)  as pedidos inner join  (select order_status.id_order,status.id_status, status.description  from order_status left join status on order_status.id_status=status.id_status) as estado on pedidos.id_order=estado.id_order )  as tickets");
+      const queryResponse = await pgClient.query("select * from orders")
       const orders = convertOrderDataToObjects(queryResponse.rows);
       return orders;
     }
   static async getId(id) {
-      const queryResponse = await pgClient.query("select * from (select pedidos.*,estado.id_status,estado.description from (select products_in_order.id_order,orders.order_date fecha, orders.order_mail,orders.id_user,products_in_order.id_product, products.name, products_in_order.units, products_in_order.price, (products_in_order.units * products_in_order.price)total_line, products_in_order.coment from products_in_order right join orders on orders.id_num_order= products_in_order.id_order inner join products on products.id_product=products_in_order.id_product	)  as pedidos inner join  (select order_status.id_order,status.id_status, status.description  from order_status left join status on order_status.id_status=status.id_status) as estado on pedidos.id_order=estado.id_order )  as tickets WHERE id_order=$1",[id])
+      const queryResponse = await pgClient.query("select * from orders where id_num_order=$1",[id])
       const orders = convertOrderDataToObjects(queryResponse.rows);
       return orders;
   }
   
   
-    static async createOrder() {
-      const queryresponse = await pgClient.query
-    }
-    
-    
+    static async createOrder({order_date, order_mail}) {
+      const newOrder = await pgClient.query(`INSERT INTO orders(order_date,order_mail) 
+      values
+      ($1, $2)`, [order_date, order_mail]);
+      return newOrder;
+    }  
   
   }
   
   function convertOrderObjectToData(order) {
-    return `'${id_order}', '${fecha}', '${id_user}','${order_mail}','${id_product}','${name}','${units}','${price}','${total_line}','${coment}','${id_status}','${description}`;
+    return `'${id_num_order}', '${order_date}', '${id_user}','${order_mail}'`;
   }
   function convertOrderDataToObjects(data) {
     let orders = [];
     for (const objectData of data) {
       orders.push(
         new Order(
-          (id_order = objectData.id_order),
-          (fecha = objectData.fecha),
+          (id_num_order = objectData.id_num_order),
+          (order_date = objectData.order_date),
           (id_user= objectData.id_user),
-          (order_mail = objectData.order_mail),
-          (id_product = objectData.id_product),
-          (name=objectData.name),
-          (units = objectData.units),
-          (price = objectData.price),
-          (total_line = objectData.total_line),
-          (coment = objectData.pricomentce),
-          (id_status = objectData.id_status),
-          (description = objectData.description)
+          (order_mail = objectData.order_mail)
         )
       );
     }
