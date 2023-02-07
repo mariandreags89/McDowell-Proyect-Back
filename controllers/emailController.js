@@ -1,6 +1,5 @@
-const { response } = require('express');
 const nodemailer = require('nodemailer');
-
+const { response } = require('express');
 
 
 const postEmailOrder = async (req, res) => {
