@@ -1,6 +1,9 @@
 var router = require('express').Router();
 
-router.get('/orders', require('../controllers/orders'));
-router.post('/create-order', require('../controllers/createOrder'));
-router.patch('/set-order/:id-order', require('../controllers/setOrder'));
+router.get('/get-orders', require('../controllers/ordersControllers/getOrders'));
+router.get('/:id', require('../controllers/ordersControllers/getIdOrder'));
+router.post('/create-order', require('../controllers/ordersControllers/createOrder'));
+router.patch('/set-order/:id', require('../controllers/ordersControllers/setOrders'));
+
+
 module.exports = router;
