@@ -30,10 +30,14 @@ class OrdersManager {
   }
   
   
-    static async createOrder({order_date, order_mail}) {
+    static async createOrder({ mail}) {
+        // crea un nuevo objeto `Date`
+        var today = new Date();
+        // obtener solo la fecha 
+        var now = today.toLocaleString().slice(0, 10).split(',')[0];
       const newOrder = await pgClient.query(`INSERT INTO orders(order_date,order_mail) 
       values
-      ($1, $2)`, [order_date, order_mail]);
+      ($1, $2)`, [now, mail]);
       return newOrder;
     }  
   
