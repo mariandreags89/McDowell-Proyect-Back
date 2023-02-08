@@ -5,6 +5,7 @@ app.use(express.json());
 app.use(cors())
 require('dotenv').config()
 const port = 3001;
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", require("./routes"));
 

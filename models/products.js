@@ -1,4 +1,4 @@
-startConnection = require("./connection");
+const startConnection = require("./connection");
 
 class Product {
   constructor(
