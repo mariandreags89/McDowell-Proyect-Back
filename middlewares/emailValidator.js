@@ -1,13 +1,13 @@
 const { body, validationResult } = require("express-validator");
-/*const validateEmail = [
-    body("email", "ingrese un e-mail valido").isEmail(),
-    (req, res) => {
+const validateEmail = [
+    body("email", "ingrese un e-mail valido").isEmail()
+    /*(req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(203).json({ errors: errors.array() });
       }
-    },
-  ]; */
+    },*/
+  ]; 
 
 /*const validateEmail = [
   body("email").isEmail(),
@@ -20,6 +20,6 @@ const { body, validationResult } = require("express-validator");
       res.send({ err: err.array() });
     }
   },
-];*/
+]; */
 
-module.export = {validateEmail}
+module.export = validateEmail

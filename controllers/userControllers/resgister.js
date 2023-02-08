@@ -1,7 +1,11 @@
-function registerController(req, res) {
-  const { username, password } = req.body;
+const UserManager = require('../../models/users')
 
-  res.status(201).json();
+const  registerController= async (req, res)=> {
+  const infoUser = req.body;
+
+  const response = await UserManager.register(infoUser)
+
+  res.status(201).send(response);
 }
 
 module.exports = registerController;

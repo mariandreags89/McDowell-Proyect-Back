@@ -39,14 +39,12 @@ class productsOrderManager {
   
   
   
-    static async createproducts_in_Order({ id_product, units, price, coment }) {
-      //const order= pgClient.query("select max(id_num_order) from orders");
-      //console.log(order);
+    static async createproducts_in_Order(products) {
     const ultimo= await pgClient.query("select max(id_num_order) from orders");
     const id_order=ultimo.rows[0].max;
-    const newProduct_Order = await pgClient.query(`INSERT INTO products_in_order (id_order,id_product,units,price,coment) 
+    const newProduct_Order = products.map((prod)=> {return pgClient.query(`INSERT INTO products_in_order (id_order,id_product,units,price,coment) 
     values
-    ($1, $2,$3, $4, $5)`, [ id_order,id_product,units,price,coment]);
+    ($1, $2,$3, $4, $5)`, [ id_order,prod.id_product,prod.quantity,prod.price,""])})
     
     return newProduct_Order;
     }

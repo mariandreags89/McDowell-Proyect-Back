@@ -1,10 +1,12 @@
 const OrdersManager = require("../../models/orders");
+const orderStatusManager = require("../../models/OrderStatus");
+
 
 const createOrder = async (req, res) => {
-  //const newOrder = req.body;
-  const mail = req.body.order_mail;
-  const response = await OrdersManager.createOrder({mail});
-  //console.log(response);
+  const {email} = req.body
+  const response = await OrdersManager.createOrder(email);
+  const responseStatus = await orderStatusManager.createOrderStatus();
+ 
   res.status(201).end();
 };
 

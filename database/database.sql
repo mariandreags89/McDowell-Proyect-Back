@@ -39,7 +39,7 @@ CREATE TABLE STATUS (
 );
 
 insert into status (description) values
-('Cocina'),('Pendiente Preparacion'),('Pendiente servir'),('Servido'),('Finalizado');
+('Pendiente Preparacion'),('Cocina'),('Pendiente servir'),('Servido'),('Finalizado');
 
  select * from status;
 

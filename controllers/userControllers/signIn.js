@@ -3,7 +3,7 @@ const UserManager = require("../../models/users");
 
 const signInController = async (req, res) => {
   const { username, password } = req.body;
-  const response = await UserManager.getUser(username);
+  const response = await UserManager.signIn(username);
 
    if (!response) {
     res.status(401).send({ error : "usuario no encontrado"});

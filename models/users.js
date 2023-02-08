@@ -23,7 +23,8 @@ class UserManager {
       return user;
     }
   
-    static async getUser(username) {
+    // estatico para iniciar sesion 
+    static async signIn(username) {
       const queryResponse = await pgClient.query(`SELECT * FROM users WHERE name='${username}'`)
       if (!queryResponse){
         return null 
@@ -32,20 +33,21 @@ class UserManager {
       return user[0];
     }
     
-    static async signIn(id) {
+    /*static async signIn(id) {
       const queryResponse = await pgClient.query("SELECT * FROM products WHERE id_product=$1",[id]);
       const user = convertUserDataToObjects(queryResponse.rows);
       return user;
-    }
+    } */
 
-    static async register(){
-
-      return 
+    static async register(infoUser){
+      const user = convertUserObjectToData(infoUser)
+      //const queryResponse = await pgClient.query('INSER INTO user (name, email, password) VALUES $1', [user])
+      return user
     }
   }
 
-  function convertUserObjectToData(product) {
-    return `'${product.id}', '${product.name}', '${product.price}'`;
+  function convertUserObjectToData(info) {
+    return `'${info.name}', '${info.email}', '${info.password}'`;
   }
   
   function convertUserDataToObjects(data) {

@@ -1,4 +1,4 @@
-startConnection = require("./connection");
+const startConnection = require("./connection");
 
 class Order {
     constructor(
@@ -14,7 +14,7 @@ class Order {
     }
 }
 
-pgClient = startConnection();
+const pgClient = startConnection();
 
 class OrdersManager {
   
@@ -30,16 +30,15 @@ class OrdersManager {
   }
   
   
-    static async createOrder({ mail}) {
+    static async createOrder(email) {
         // crea un nuevo objeto `Date`
         var today = new Date();
         // obtener solo la fecha 
         var now = today.toLocaleString().slice(0, 10).split(',')[0];
-      const newOrder = await pgClient.query(`INSERT INTO orders(order_date,order_mail) 
-      values
-      ($1, $2)`, [now, mail]);
-      return newOrder;
-    }  
+        const newOrder = await pgClient.query(`INSERT INTO orders(order_date,order_mail) 
+        values ($1, $2)`, [now, email]);
+        return newOrder;
+      }  
   
   }
   
