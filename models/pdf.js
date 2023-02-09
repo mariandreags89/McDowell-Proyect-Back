@@ -1,4 +1,4 @@
-startConnection = require("./connection");
+const startConnection = require("./connection");
 
 
 // definimos tabla
@@ -32,14 +32,17 @@ class pdf {
     }
 }
 // conectamos a la base
-pgClient = startConnection()
+const pgClient = startConnection()
 
 class PdfManager {
   
-  static async getpdf(id) {
-    const queryResponse = await pgClient.query("select * from (select pedidos.*,estado.id_status from (select products_in_order.id_order,orders.order_date fecha, orders.order_mail,orders.id_user,products_in_order.id_product, products.name, products_in_order.units, products_in_order.price, (products_in_order.units * products_in_order.price)total_line, products_in_order.coment from products_in_order right join orders on orders.id_num_order= products_in_order.id_order inner join products on products.id_product=products_in_order.id_product	)  as pedidos  inner join  (select order_status.id_order,status.id_status, status.description  from order_status left join status on order_status.id_status=status.id_status) as estado on pedidos.id_order=estado.id_order )  as tickets  where tickets.id_status=5 and tickets.id_order=$1",[id])
+  static async getpdf() { // buscar el id de order como en las demas consultas
+    const ultimo= await pgClient.query("select max(id_num_order) from orders");
+    const id_order=ultimo.rows[0].max;
+
+    const queryResponse = await pgClient.query("select * from (select pedidos.*,estado.id_status from (select products_in_order.id_order,orders.order_date fecha, orders.order_mail,orders.id_user,products_in_order.id_product, products.name, products_in_order.units, products_in_order.price, (products_in_order.units * products_in_order.price)total_line, products_in_order.coment from products_in_order right join orders on orders.id_num_order= products_in_order.id_order inner join products on products.id_product=products_in_order.id_product	)  as pedidos  inner join  (select order_status.id_order,status.id_status, status.description  from order_status left join status on order_status.id_status=status.id_status) as estado on pedidos.id_order=estado.id_order )  as tickets  where tickets.id_status=5 and tickets.id_order=$1",[id_order])
     const pdfs = convertpdfDataToObjects(queryResponse.rows);
-    return pdfs;
+    return pdfs
 }
 }  
  

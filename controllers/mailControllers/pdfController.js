@@ -4,12 +4,14 @@ const PdfManager = require('../../models/pdf')
 
 
 const getpdfOrder = async (req, res) => {
-  const id = req.params.id;
-  const response = await PdfManager.getpdf(id)
+  //const id = req.params.id; ***ya no recibimos el id por params
+  const response = await PdfManager.getpdf()
+  const {id_order} = response;
   //cargamos y generamos pdf
   const pdf = require('html-pdf');
   const fs = require("fs");
-  const ubicacionPlantilla = require.resolve("../html/ticket.html");
+  //const ubicacionPlantilla = require.resolve("../html/ticket.html"); ** Cambie la ruta
+  const ubicacionPlantilla = require.resolve('../../html/ticket.html');
   let contenidoHtml = fs.readFileSync(ubicacionPlantilla, 'utf8')
   // tomamos los datos de response
   const productos = response;
@@ -52,8 +54,7 @@ const getpdfOrder = async (req, res) => {
   contenidoHtml = contenidoHtml.replace("{{subtotal}}", formateador.format(subtotal));
   contenidoHtml = contenidoHtml.replace("{{impuestos}}", formateador.format(impuestos));
   contenidoHtml = contenidoHtml.replace("{{total}}", formateador.format(total));
-
-  pdf.create(contenidoHtml).toFile(`./pdf/ticket_${id}.pdf`, function(err, res) {
+  pdf.create(contenidoHtml).toFile(`./pdf/ticket_${id_order}.pdf`, function(err, res) {
     if (err){
         console.log("Error creando PDF: " +err);
     } else {
@@ -61,7 +62,7 @@ const getpdfOrder = async (req, res) => {
     }
 });
     
-  res.status(200).json(response);
+ //res.status(200).json(response); ** he tenido q comentar esto por q daba error
 };
 
 

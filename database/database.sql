@@ -106,4 +106,4 @@ select products_in_order.id_order,orders.order_date fecha,orders.id_user,product
 	right join orders on orders.id_num_order= products_in_order.id_order
 	inner join products on products.id_product=products_in_order.id_product	)  as pedidos
 inner join  (select order_status.id_order,status.id_status, status.description  from order_status left join status on order_status.id_status=status.id_status) as estado 
-on pedidos.id_order=estado.id_order )  as tickets  where tickets.id_status=5 and tickets.id_order=1;
+on pedidos.id_order=estado.id_order )  as tickets  where tickets.id_status=1 and tickets.id_order=1;

@@ -1,11 +1,12 @@
 const { response } = require('express');
 const nodemailer = require('nodemailer');
+const EmailManager = require('../../models/email')
 
 
-
-const postEmailOrder = async (req, res) => {
-    const id = req.params.id;
-    const email = req.params.email;
+const postEmailOrder = async (email) => {
+    //const id = req.params.id; ** ya no recibe id por params
+    //const email = req.params.email; ** el email lo recibe como parametro pero no se como aun
+    const id = EmailManager.getIdOrder()
     // Notificación de formulario - cliente.
     let notificaciones = [
         {
@@ -113,7 +114,7 @@ const postEmailOrder = async (req, res) => {
     console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
-    res.redirect('Correo Enviado');
+    //res.redirect('Correo Enviado');
 };
 
 
