@@ -7,7 +7,7 @@ class pdf {
       id_order=null,
       fecha=null, 
       id_user=null,
-      email=null, 
+      order_mail=null, 
       id_product=null, 
       name=null, 
       units=null, 
@@ -20,7 +20,7 @@ class pdf {
       this.id_order = id_order;
       this.fecha = fecha;
       this.id_user = id_user;
-      this.email = email;
+      this.order_mail = order_mail;
       this.id_product = id_product;
       this.name = name;
       this.units = units;
@@ -37,14 +37,14 @@ pgClient = startConnection()
 class PdfManager {
   
   static async getpdf(id) {
-    const queryResponse = await pgClient.query("select * from (select pedidos.*,estado.id_status from (select products_in_order.id_order,orders.order_date fecha, orders.order_mail,orders.id_user,products_in_order.id_product, products.name, products_in_order.units, products_in_order.price, (products_in_order.units * products_in_order.price)total_line, products_in_order.coment from products_in_order right join orders on orders.id_num_order= products_in_order.id_order inner join products on products.id_product=products_in_order.id_product	)  as pedidos  inner join  (select order_status.id_order,status.id_status, status.description  from order_status left join status on order_status.id_status=status.id_status) as estado on pedidos.id_order=estado.id_order )  as tickets  where tickets.id_status=5 and tickets.id_order=$1",[id])
+    const queryResponse = await pgClient.query("select * from (select pedidos.*,estado.id_status from (select products_in_order.id_order,orders.order_date fecha, orders.order_mail,orders.id_user,products_in_order.id_product, products.name, products_in_order.units, products_in_order.price, (products_in_order.units * products_in_order.price)total_line, products_in_order.coment from products_in_order right join orders on orders.id_num_order= products_in_order.id_order inner join products on products.id_product=products_in_order.id_product	)  as pedidos  inner join  (select order_status.id_order,status.id_status, status.description  from order_status left join status on order_status.id_status=status.id_status) as estado on pedidos.id_order=estado.id_order )  as tickets  where tickets.id_status=1 and tickets.id_order=$1",[id])
     const pdfs = convertpdfDataToObjects(queryResponse.rows);
     return pdfs;
 }
 }  
  
 function convertOrderObjectToData(pdfs) {
-  return `'${id_order}', '${fecha}', '${id_user}','${email}','${id_product}','${name}','${units}','${price}','${total_line}','${coment}','${id_status}','${description}`;
+  return `'${id_order}', '${fecha}', '${id_user}','${order_mail}','${id_product}','${name}','${units}','${price}','${total_line}','${coment}','${id_status}','${description}`;
   
 }
   
@@ -56,7 +56,7 @@ function convertOrderObjectToData(pdfs) {
           (id_order = objectData.id_order),
           (fecha = objectData.fecha),
           (id_user= objectData.id_user),
-          (email = objectData.email),
+          (order_mail = objectData.order_mail),
           (id_product = objectData.id_product),
           (name=objectData.name),
           (units = objectData.units),
