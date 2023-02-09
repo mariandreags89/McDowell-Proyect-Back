@@ -3,17 +3,20 @@ const PdfManager = require('../../models/pdf')
 
 
 
+
 const getpdfOrder = async (req, res) => {
-  const id = req.params.id;
+  //const id = req.params.id;
+  const ultimo= await pgClient.query("select max(id_num_order) from orders");
+  const id=ultimo.rows[0].max;
   const response = await PdfManager.getpdf(id)
   //cargamos y generamos pdf
   const pdf = require('html-pdf');
   const fs = require("fs");
-  const ubicacionPlantilla = require.resolve("../html/ticket.html");
+  const ubicacionPlantilla = require.resolve("../../html/ticket.html");
   let contenidoHtml = fs.readFileSync(ubicacionPlantilla, 'utf8')
   // tomamos los datos de response
   const productos = response;
-  //console.log(productos);
+  
   
   // Nota:se formatea el dinero. No es requerido, es para que se vea bonito
   const formateador = new Intl.NumberFormat("de-DE", { style: "currency", "currency": "EUR" });
