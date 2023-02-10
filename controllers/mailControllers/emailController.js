@@ -3,10 +3,14 @@ const nodemailer = require('nodemailer');
 const EmailManager = require('../../models/email')
 
 
-const postEmailOrder = async (email) => {
-    //const id = req.params.id; ** ya no recibe id por params
-    //const email = req.params.email; ** el email lo recibe como parametro pero no se como aun
-    const id = EmailManager.getIdOrder()
+
+const postEmailOrder = async (req, res) => {
+    //const id = req.params.id;
+    const ultimo= await pgClient.query("select max(id_num_order) from orders");
+    const id=ultimo.rows[0].max;
+    //const email = req.params.email;
+    const dato= await pgClient.query("select order_mail from orders where id_num_order=$1",[id]);
+    const email=dato.rows[0].order_mail;
     // Notificación de formulario - cliente.
     let notificaciones = [
         {
@@ -96,7 +100,7 @@ const postEmailOrder = async (email) => {
         attachments: [
             {
                 filename: `ticket_${id}.pdf`,
-                path: `./public/pdf/ticket_${id}.pdf`,
+                path: `./pdf/ticket_${id}.pdf`,
                 cid: 'ticket' 
             },
             {
@@ -107,11 +111,11 @@ const postEmailOrder = async (email) => {
             ]
     })
 
-    console.log('Message sent: %s', info.messageId);
+    //console.log('Message sent: %s', info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
     // Preview only available when sending through an Ethereal account
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    //console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
     //res.redirect('Correo Enviado');
