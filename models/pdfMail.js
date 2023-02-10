@@ -34,8 +34,21 @@ class pdf {
 // conectamos a la base
 const pgClient = startConnection()
 
-class PdfManager {
+class PdfMailManager {
   
+static async getIdOrder(){
+  const ultimo= await pgClient.query("select max(id_num_order) from orders");
+  const id=ultimo.rows[0].max;
+  return id
+}
+
+static async getEmail(id){
+  const dato= await pgClient.query("select order_mail from orders where id_num_order=$1",[id]);
+  const email=dato.rows[0].order_mail;
+  return email
+}
+
+
   static async getpdf(id) {
     const queryResponse = await pgClient.query("select * from (select pedidos.*,estado.id_status from (select products_in_order.id_order,orders.order_date fecha, orders.order_mail,orders.id_user,products_in_order.id_product, products.name, products_in_order.units, products_in_order.price, (products_in_order.units * products_in_order.price)total_line, products_in_order.coment from products_in_order right join orders on orders.id_num_order= products_in_order.id_order inner join products on products.id_product=products_in_order.id_product	)  as pedidos  inner join  (select order_status.id_order,status.id_status, status.description  from order_status left join status on order_status.id_status=status.id_status) as estado on pedidos.id_order=estado.id_order )  as tickets  where tickets.id_status=1 and tickets.id_order=$1",[id])
     const pdfs = convertpdfDataToObjects(queryResponse.rows);
@@ -72,4 +85,4 @@ function convertOrderObjectToData(pdfs) {
   }
   
   
-  module.exports = PdfManager;
+  module.exports = PdfMailManager;

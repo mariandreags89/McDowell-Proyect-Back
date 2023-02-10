@@ -11,11 +11,11 @@ CREATE TABLE PRODUCTS (
     PRIMARY KEY (id_product)
 );
 
-insert into products (name,description,image,price,stock_day,available) values
+insert into products (name,description,image,price,stock_day,available_stock) values
 ('MENU McDOWELLS','Carne de vacuno, queso cheddar, lechuga, tomate y cebolla en pan brioche tostado con dos sésamos. Acompañada de guarnición a elegir.',
- 'https://cdn-icons-png.flaticon.com/512/9425/9425772.png',4.25,100,100),
+ 'https://cdn-icons-png.flaticon.com/512/9425/9425772.png',8.50,100,100),
  ('MENU McDOWELLS JR','McDowell Jr te trae la fórmula perfecta. Un menú completo y diversión sin fin con la sorpresa que esconde en su interior. La mejor opción para cubrir las necesidad tanto de los padres como de los más pequeños.',
- 'https://cdn-icons-png.flaticon.com/512/7451/7451012.png',8.5,100,100);
+ 'https://cdn-icons-png.flaticon.com/512/7451/7451012.png',4.25,100,100);
 
  select * from products;
 

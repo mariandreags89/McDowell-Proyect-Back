@@ -1,14 +1,16 @@
 const { response } = require('express');
-const PdfManager = require('../../models/pdf')
-
+const PdfMailManager = require('../../models/pdfMail');
+const { postEmailOrder } = require('./emailController');
 
 
 
 const getpdfOrder = async (req, res) => {
-  //const id = req.params.id;
-  const ultimo= await pgClient.query("select max(id_num_order) from orders");
-  const id=ultimo.rows[0].max;
-  const response = await PdfManager.getpdf(id)
+  
+//   const ultimo= await pgClient.query("select max(id_num_order) from orders");
+//   const id=ultimo.rows[0].max;
+
+  const id = await PdfMailManager.getIdOrder()
+  const response = await PdfMailManager.getpdf(id)
   //cargamos y generamos pdf
   const pdf = require('html-pdf');
   const fs = require("fs");
@@ -55,15 +57,16 @@ const getpdfOrder = async (req, res) => {
   contenidoHtml = contenidoHtml.replace("{{subtotal}}", formateador.format(subtotal));
   contenidoHtml = contenidoHtml.replace("{{impuestos}}", formateador.format(impuestos));
   contenidoHtml = contenidoHtml.replace("{{total}}", formateador.format(total));
-  pdf.create(contenidoHtml).toFile(`./pdf/ticket_${id_order}.pdf`, function(err, res) {
+  pdf.create(contenidoHtml).toFile(`./pdf/ticket_${id}.pdf`,  function(err, res) {
     if (err){
         console.log("Error creando PDF: " +err);
     } else {
-        console.log("PDF creado correctamente" +res);
+        postEmailOrder()
     }
-});
     
- //res.status(200).json(response); ** he tenido q comentar esto por q daba error
+});
+
+ //res.status(200).json(response); 
 };
 
 

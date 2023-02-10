@@ -1,16 +1,19 @@
 const { response } = require('express');
 const nodemailer = require('nodemailer');
-const EmailManager = require('../../models/email')
+const PdfMailManager = require('../../models/pdfMail');
 
 
 
-const postEmailOrder = async (req, res) => {
-    //const id = req.params.id;
-    const ultimo= await pgClient.query("select max(id_num_order) from orders");
-    const id=ultimo.rows[0].max;
-    //const email = req.params.email;
-    const dato= await pgClient.query("select order_mail from orders where id_num_order=$1",[id]);
-    const email=dato.rows[0].order_mail;
+const postEmailOrder = async () => {
+    
+    
+    // const ultimo= await pgClient.query("select max(id_num_order) from orders");
+    // const id=ultimo.rows[0].max;
+    const id = await PdfMailManager.getIdOrder()
+    
+    // const dato= await pgClient.query("select order_mail from orders where id_num_order=$1",[id]);
+    // const email=dato.rows[0].order_mail;
+    const email = await PdfMailManager.getEmail(id)
     // Notificación de formulario - cliente.
     let notificaciones = [
         {
@@ -97,7 +100,7 @@ const postEmailOrder = async (req, res) => {
         to: `${email}`,
         subject: `Envio ticket numero: ${id}`,
         html: contentHTML,
-        attachments: [
+       attachments: [
             {
                 filename: `ticket_${id}.pdf`,
                 path: `./pdf/ticket_${id}.pdf`,
@@ -108,7 +111,7 @@ const postEmailOrder = async (req, res) => {
                 path: './public/images/McDowell.png',
                 cid: 'McDowell' //same cid value as in the html img src
                 }
-            ]
+            ] 
     })
 
     //console.log('Message sent: %s', info.messageId);
@@ -118,7 +121,7 @@ const postEmailOrder = async (req, res) => {
     //console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
-    //res.redirect('Correo Enviado');
+    //res.status(200).send({msg:"correo enviado"});
 };
 
 
