@@ -6,11 +6,12 @@ const { postEmailOrder } = require('./emailController');
 
 const getpdfOrder = async (req, res) => {
   
-//   const ultimo= await pgClient.query("select max(id_num_order) from orders");
-//   const id=ultimo.rows[0].max;
+const ultimo= await pgClient.query("select max(id_num_order) from orders");
+const id=ultimo.rows[0].max;
 
-  const id = await PdfMailManager.getIdOrder()
+  //const id = await PdfMailManager.getIdOrder()
   const response = await PdfMailManager.getpdf(id)
+  console.log(response)
   //cargamos y generamos pdf
   const pdf = require('html-pdf');
   const fs = require("fs");
