@@ -11,7 +11,6 @@ const id=ultimo.rows[0].max;
 
   //const id = await PdfMailManager.getIdOrder()
   const response = await PdfMailManager.getpdf(id)
-  console.log(response)
   //cargamos y generamos pdf
   const pdf = require('html-pdf');
   const fs = require("fs");
