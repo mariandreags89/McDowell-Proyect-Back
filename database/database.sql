@@ -7,7 +7,7 @@ CREATE TABLE PRODUCTS (
 	image varchar(155),
     price float,
     stock_day INT,
-	available_stock INT,
+	available_stock INT
     PRIMARY KEY (id_product)
 );
 
@@ -20,38 +20,38 @@ insert into products (name,description,image,price,stock_day,available_stock) va
  select * from products;
 
 
-CREATE TABLE user (
+CREATE TABLE users (
     id_user SERIAL NOT NULL,
     username varchar(150),
-	password VARCHAR(6),
+	password VARCHAR(6)
     PRIMARY KEY (id_user)
 );
 
+
 CREATE TABLE clients (
-	id_client SERIAL not null
-    id_user int reference user(id_user),
+	id_client SERIAL not null,
+    id_user int references users(id_user),
 	name VARCHAR(50),
     PRIMARY KEY (id_client)
 );
 
 CREATE TABLE waiter (
-	id_waiter SERIAL not null
-    id_user int reference user(id_user),
+	id_waiter SERIAL not null,
+    id_user int references users(id_user),
     PRIMARY KEY (id_waiter)
 );
 //estados 3,4,5
 
 CREATE TABLE chef (
-	id_chef SERIAL not null
-    id_user int reference user(id_user),
-
+	id_chef SERIAL not null,
+    id_user int references users(id_user),
     PRIMARY KEY (id_chef)
 );
 //estados 1,2,3
 
 CREATE TABLE admin (
-	id_admin SERIAL not null
-    id_user int reference user(id_user),
+	id_admin SERIAL not null,
+    id_user int references users(id_user),
     PRIMARY KEY (id_admin)
 );
 //todos los estados 1,2,3,4,5
