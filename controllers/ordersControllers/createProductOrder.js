@@ -4,7 +4,7 @@ const {postEmailOrder} = require('../mailControllers/emailController')
 
 const createProductOrder = async (req, res) => {
   const products = req.body;
-  const response = await productsOrderManager.createproducts_in_Order(products);
+  await productsOrderManager.createproducts_in_Order(products);
   await getpdfOrder();
   res.status(201).end();
 };

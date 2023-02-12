@@ -25,7 +25,7 @@ class UserManager {
   
     // estatico para iniciar sesion 
     static async signIn(username) {
-      const queryResponse = await pgClient.query(`SELECT * FROM users WHERE name='${username}'`)
+      const queryResponse = await pgClient.query('SELECT * FROM users WHERE username=$1', [username])
       if (!queryResponse){
         return null 
       }
@@ -39,10 +39,10 @@ class UserManager {
       return user;
     } */
 
-    static async register(infoUser){
-      const user = convertUserObjectToData(infoUser)
-      //const queryResponse = await pgClient.query('INSER INTO user (name, email, password) VALUES $1', [user])
-      return user
+    static async register(username, password){
+      //const user = convertUserObjectToData(infoUser)
+      const queryResponse = await pgClient.query('INSERT INTO users (username, password) VALUES ($1,$2)', [username, password])
+      return (queryResponse)
     }
   }
 

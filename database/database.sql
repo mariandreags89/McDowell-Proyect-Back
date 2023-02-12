@@ -24,7 +24,7 @@ CREATE TABLE USERS (
     id_user SERIAL NOT NULL,
     name varchar(50),
 	email VARCHAR(150),
-	password VARCHAR(6),
+	password VARCHAR(150),
     PRIMARY KEY (id_user)
 );
 insert into users (name,email,password) values

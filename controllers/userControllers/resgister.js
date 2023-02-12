@@ -1,11 +1,15 @@
-const UserManager = require('../../models/users')
+const UserManager = require("../../models/users");
+const bcrypt = require("bcrypt");
 
-const  registerController= async (req, res)=> {
-  const infoUser = req.body;
+const registerController = async (req, res) => {
+  var BCRYP_SALT_RAUNDS = 10;
+  const { username, password } = req.body;
 
-  const response = await UserManager.register(infoUser)
+  const passwordCryp = await bcrypt.hash(password, BCRYP_SALT_RAUNDS);
 
-  res.status(201).send(response);
-}
+  await UserManager.register(username, passwordCryp);
+
+  res.status(201).end();
+};
 
 module.exports = registerController;
