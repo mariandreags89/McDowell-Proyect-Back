@@ -6,16 +6,16 @@ const { postEmailOrder } = require('./emailController');
 
 const getpdfOrder = async (req, res) => {
   
-const ultimo= await pgClient.query("select max(id_num_order) from orders");
-const id=ultimo.rows[0].max;
+//const ultimo= await pgClient.query("select max(id_num_order) from orders");
+//const id=ultimo.rows[0].max;
 
-  //const id = await PdfMailManager.getIdOrder()
-  const response = await PdfMailManager.getpdf(id)
+  const id = await PdfMailManager.getIdOrder();
+  const response = await PdfMailManager.getpdf(id);
   //cargamos y generamos pdf
   const pdf = require('html-pdf');
   const fs = require("fs");
   const ubicacionPlantilla = require.resolve("../../html/ticket.html");
-  let contenidoHtml = fs.readFileSync(ubicacionPlantilla, 'utf8')
+  let contenidoHtml = fs.readFileSync(ubicacionPlantilla, 'utf8');
   // tomamos los datos de response
   const productos = response;
   
@@ -61,13 +61,11 @@ const id=ultimo.rows[0].max;
     if (err){
         console.log("Error creando PDF: " +err);
     } else {
-        postEmailOrder()
+        postEmailOrder({id});
     }
-    
-});
-
- //res.status(200).json(response); 
-};
+    });
+    //res.status(200).json(response); 
+    };
 
 
 

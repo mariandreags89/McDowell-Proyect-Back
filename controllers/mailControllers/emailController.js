@@ -4,12 +4,12 @@ const PdfMailManager = require('../../models/pdfMail');
 
 
 
-const postEmailOrder = async () => {
+const postEmailOrder = async ({id}) => {
     
     
     // const ultimo= await pgClient.query("select max(id_num_order) from orders");
     // const id=ultimo.rows[0].max;
-    const id = await PdfMailManager.getIdOrder()
+    //const id = await PdfMailManager.getIdOrder()
     
     // const dato= await pgClient.query("select order_mail from orders where id_num_order=$1",[id]);
     // const email=dato.rows[0].order_mail;
