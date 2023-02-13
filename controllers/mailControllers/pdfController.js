@@ -6,13 +6,13 @@ const { postEmailOrder } = require('./emailController');
 
 const getpdfOrder = async (req, res) => {
   
-  const id = await PdfMailManager.getIdOrder()
-  const response = await PdfMailManager.getpdf(id)
+  const id = await PdfMailManager.getIdOrder();
+  const response = await PdfMailManager.getpdf(id);
   //cargamos y generamos pdf
   const pdf = require('html-pdf');
   const fs = require("fs");
   const ubicacionPlantilla = require.resolve("../../html/ticket.html");
-  let contenidoHtml = fs.readFileSync(ubicacionPlantilla, 'utf8')
+  let contenidoHtml = fs.readFileSync(ubicacionPlantilla, 'utf8');
   // tomamos los datos de response
   const productos = response;
   
@@ -58,7 +58,7 @@ const getpdfOrder = async (req, res) => {
     if (err){
         console.log("Error creando PDF: " +err);
     } else {
-        postEmailOrder()
+        postEmailOrder({id});
     }
     
 });

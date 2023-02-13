@@ -7,7 +7,7 @@ CREATE TABLE PRODUCTS (
 	image varchar(155),
     price float,
     stock_day INT,
-	available_stock INT,
+	available_stock INT
     PRIMARY KEY (id_product)
 );
 
@@ -20,17 +20,41 @@ insert into products (name,description,image,price,stock_day,available_stock) va
  select * from products;
 
 
-CREATE TABLE USERS (
+CREATE TABLE users (
     id_user SERIAL NOT NULL,
-    name varchar(50),
-	email VARCHAR(150),
-	password VARCHAR(150),
+    username varchar(150),
+	password VARCHAR(150)
     PRIMARY KEY (id_user)
 );
-insert into users (name,email,password) values
-('CAMARERO','',123456),('COCINERO','',234567),('ADMINISTRACION','',345678);
- 
- select * from USERS;
+
+
+CREATE TABLE clients (
+	id_client SERIAL not null,
+    id_user int references users(id_user),
+	name VARCHAR(50),
+    PRIMARY KEY (id_client)
+);
+
+CREATE TABLE waiter (
+	id_waiter SERIAL not null,
+    id_user int references users(id_user),
+    PRIMARY KEY (id_waiter)
+);
+//estados 3,4,5
+
+CREATE TABLE chef (
+	id_chef SERIAL not null,
+    id_user int references users(id_user),
+    PRIMARY KEY (id_chef)
+);
+//estados 1,2,3
+
+CREATE TABLE admin (
+	id_admin SERIAL not null,
+    id_user int references users(id_user),
+    PRIMARY KEY (id_admin)
+);
+//todos los estados 1,2,3,4,5
 
 CREATE TABLE STATUS (
     id_STATUS SERIAL NOT NULL,
@@ -39,13 +63,14 @@ CREATE TABLE STATUS (
 );
 
 insert into status (description) values
-('Pendiente Preparacion'),('Cocina'),('Pendiente servir'),('Servido'),('Finalizado');
+('Pendiente Preparacion'),('Cocina'),('Pendiente servir'),('En servicio'),('Finalizado');
 
  select * from status;
 
 CREATE TABLE orders(
 	id_num_order SERIAL NOT NULL,
 	order_date date,
+	order_time time,
 	order_mail VARCHAR(50),
 	order_to_go	Boolean default false,
 	id_user int references users(id_user),

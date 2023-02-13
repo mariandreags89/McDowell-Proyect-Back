@@ -8,7 +8,7 @@ router.post('/create-order',body("email").isEmail(), require('../controllers/ord
 router.post('/create-product-order', require('../controllers/ordersControllers/createProductOrder'));
 router.post('/create-order-status', require('../controllers/ordersControllers/createOrderStatus'));
 router.patch('/set-order/:id', require('../controllers/ordersControllers/setOrders'));
-
+router.patch('/status/:id', require('../controllers/statusControllers/pacthStatusOrder'));
 
 
 module.exports = router;
