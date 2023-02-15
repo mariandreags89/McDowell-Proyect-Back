@@ -41,7 +41,7 @@ class OrdersManager {
         var fecha = now.split('/').reverse().join('/');
         var time =today.toLocaleTimeString('it-IT');
         const newOrder = await pgClient.query(`INSERT INTO orders(order_date,order_time,order_mail) 
-        values ($1, $2, $3)`, [now, time, email]);
+        values ($1, $2, $3)`, [fecha, time, email]);
         return newOrder;
       }  
   
