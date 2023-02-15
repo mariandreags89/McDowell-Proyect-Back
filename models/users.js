@@ -40,10 +40,10 @@ class UserManager {
     } */
 
     static async register(username, password){
-      //const user = convertUserObjectToData(infoUser)
       const queryResponse = await pgClient.query('INSERT INTO users (username, password) VALUES ($1,$2)', [username, password])
       return (queryResponse)
     }
+    
   }
 
   function convertUserObjectToData(info) {
