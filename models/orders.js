@@ -32,41 +32,40 @@ class OrdersManager {
     const orders = convertOrderDataToObjects(queryResponse.rows);
     return orders;
   }
-
-  static async createOrder(email, id_user) {
-    // crea un nuevo objeto `Date`
-    var today = new Date();
-    // obtener solo la fecha
-    //var now = today.toLocaleString().slice(0, 10).split(",")[0];
-    const date = new Date().toISOString().slice(0, 10);
-    const [yyyy, mm, dd] = date.split("-");
-    const formattedDate = `${mm}/${dd}/${yyyy}`;
-    var time = today.toLocaleTimeString("it-IT");
-    const newOrder = await pgClient.query(
-      "INSERT INTO orders(order_date,order_time,order_mail) values ($1, $2, $3)",
-      [formattedDate, time, email]
-    );
-    return newOrder;
+  
+  
+    static async createOrder(email) {
+        // crea un nuevo objeto `Date`
+        var today = new Date();
+        // obtener solo la fecha
+        //var now = today.toLocaleString().slice(0, 10).split(',')[0];
+        var now = today.toLocaleString().split(',')[0]
+        var fecha = now.split('/').reverse().join('/');
+        var time =today.toLocaleTimeString('it-IT');
+        const newOrder = await pgClient.query(`INSERT INTO orders(order_date,order_time,order_mail) 
+        values ($1, $2, $3)`, [now, time, email]);
+        return newOrder;
+      }  
+  
   }
-}
-
-function convertOrderObjectToData(order) {
-  return `'${id_num_order}', '${order_date}','${order_time} '${id_user}','${order_mail}'`;
-}
-function convertOrderDataToObjects(data) {
-  let orders = [];
-  for (const objectData of data) {
-    orders.push(
-      new Order(
-        (id_num_order = objectData.id_num_order),
-        (order_date = objectData.order_date),
-        (order_time = objectData.order_time),
-        (id_user = objectData.id_user),
-        (order_mail = objectData.order_mail)
-      )
-    );
+  
+  function convertOrderObjectToData(order) {
+    return `'${id_num_order}', '${order_date}','${order_time} '${id_user}','${order_mail}'`;
   }
-  return orders;
-}
-
-module.exports = OrdersManager;
+  function convertOrderDataToObjects(data) {
+    let orders = [];
+    for (const objectData of data) {
+      orders.push(
+        new Order(
+          (id_num_order = objectData.id_num_order),
+          (order_date = objectData.order_date),
+          (order_time = objectData.order_time),
+          (id_user= objectData.id_user),
+          (order_mail = objectData.order_mail)
+        )
+      );
+    }
+    return orders;
+  }
+  
+  module.exports = OrdersManager;
