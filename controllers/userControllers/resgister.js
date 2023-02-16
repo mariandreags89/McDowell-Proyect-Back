@@ -1,11 +1,28 @@
-const UserManager = require('../../models/users')
+const UserManager = require("../../models/users");
+const ClientsManager = require("../../models/clients");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-const  registerController= async (req, res)=> {
-  const infoUser = req.body;
+const registerController = async (req, res) => {
+  var BCRYP_SALT_RAUNDS = 10;
 
-  const response = await UserManager.register(infoUser)
+  const { username, password, name } = req.body;
+  if (username && password && name) {
+    const passwordCryp = await bcrypt.hash(password, BCRYP_SALT_RAUNDS);
 
-  res.status(201).send(response);
-}
+    await UserManager.register(username.toLowerCase(), passwordCryp);
+    await ClientsManager.register(name);
+    const token = jwt.sign({ username }, process.env.SECRET, {
+      algorithm: "HS256",
+      expiresIn: 3000,
+    });
+
+    const client = await ClientsManager.getClient();
+
+    res.status(201).json({ token, name: client.name, id_user: client.id_user });
+  } else {
+    res.status(400).end();
+  }
+};
 
 module.exports = registerController;
