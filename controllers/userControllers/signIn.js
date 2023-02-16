@@ -5,7 +5,7 @@ const ClientsManager = require("../../models/clients");
 
 const signInController = async (req, res) => {
   const { username, password } = req.body;
-  const response = await UserManager.signIn(username);
+  const response = await UserManager.signIn(username.toLowerCase());
 
   if (!response) {
     res.status(401).json({ error: "usuario no encontrado" });
@@ -24,7 +24,7 @@ const signInController = async (req, res) => {
     algorithm: "HS256",
     expiresIn: 3000,
   });
-  res.status(201).json({ token, name: client.name });
+  res.status(201).json({ token, name: client.name, id_user: client.id_user });
 };
 
 module.exports = signInController;

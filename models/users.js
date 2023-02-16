@@ -3,13 +3,11 @@ const startConnection = require("./connection");
 class User {
   constructor(
     id_user = null,
-    name = null,
-    email = null,
+    username = null,
     password = null,
   ) {
     this.id_user = id_user;
-    this.name = name;
-    this.email = email;
+    this.username = username;
     this.password = password;
   }
 }
@@ -56,8 +54,7 @@ class UserManager {
       user.push(
         new User(
           (id_user = objectData.id_user),
-          (name = objectData.name),
-          (email = objectData.email),
+          (username = objectData.username),
           (password = objectData.password)
         )
       );

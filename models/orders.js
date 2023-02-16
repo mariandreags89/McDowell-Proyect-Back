@@ -34,17 +34,22 @@ class OrdersManager {
   }
   
   
-    static async createOrder(email) {
-        // crea un nuevo objeto `Date`
+    static async createOrder(dataOrder) {
         var today = new Date();
-        // obtener solo la fecha
-        //var now = today.toLocaleString().slice(0, 10).split(',')[0];
         var now = today.toLocaleString().split(',')[0]
         var fecha = now.split('/').reverse().join('/');
         var time =today.toLocaleTimeString('it-IT');
+
+        const {email, id_user} = dataOrder;
+        if (!id_user){
         const newOrder = await pgClient.query(`INSERT INTO orders(order_date,order_time,order_mail) 
-        values ($1, $2, $3)`, [now, time, email]);
+        values ($1, $2, $3)`, [fecha, time, email]);
         return newOrder;
+        } // casos en los q el cliente ya este registrado
+        const newOrder = await pgClient.query(`INSERT INTO orders(order_date,order_time,order_mail,id_user) 
+        values ($1, $2, $3, $4)`, [fecha, time, email, id_user]);
+        return newOrder;
+
       }  
   
   }
