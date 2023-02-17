@@ -3,13 +3,11 @@ const startConnection = require("./connection");
 class User {
   constructor(
     id_user = null,
-    name = null,
-    email = null,
+    username = null,
     password = null,
   ) {
     this.id_user = id_user;
-    this.name = name;
-    this.email = email;
+    this.username = username;
     this.password = password;
   }
 }
@@ -25,7 +23,7 @@ class UserManager {
   
     // estatico para iniciar sesion 
     static async signIn(username) {
-      const queryResponse = await pgClient.query(`SELECT * FROM users WHERE name='${username}'`)
+      const queryResponse = await pgClient.query('SELECT * FROM users WHERE username=$1', [username])
       if (!queryResponse){
         return null 
       }
@@ -39,11 +37,11 @@ class UserManager {
       return user;
     } */
 
-    static async register(infoUser){
-      const user = convertUserObjectToData(infoUser)
-      //const queryResponse = await pgClient.query('INSER INTO user (name, email, password) VALUES $1', [user])
-      return user
+    static async register(username, password){
+      const queryResponse = await pgClient.query('INSERT INTO users (username, password) VALUES ($1,$2)', [username, password])
+      return (queryResponse)
     }
+    
   }
 
   function convertUserObjectToData(info) {
@@ -56,8 +54,7 @@ class UserManager {
       user.push(
         new User(
           (id_user = objectData.id_user),
-          (name = objectData.name),
-          (email = objectData.email),
+          (username = objectData.username),
           (password = objectData.password)
         )
       );

@@ -81,9 +81,6 @@ const postEmailOrder = async ({id}) => {
     </html>`;
        
     // Configurar el correo electrónico
-    
-
-
     var transport = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
@@ -96,7 +93,7 @@ const postEmailOrder = async ({id}) => {
 
 
     let info = await transport.sendMail({
-        from: '"McDowell Proyecto" <mcdowellproyecto@gmail.com>', // sender address,
+        from: '"McDowell Proyecto" <mcdowellproyecto@gmail.com>', 
         to: `${email}`,
         subject: `Envio ticket numero: ${id}`,
         html: contentHTML,
@@ -109,7 +106,7 @@ const postEmailOrder = async ({id}) => {
             {
                 filename: 'McDowell.png',
                 path: './public/images/McDowell.png',
-                cid: 'McDowell' //same cid value as in the html img src
+                cid: 'McDowell' 
                 }
             ] 
     })
