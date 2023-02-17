@@ -56,6 +56,15 @@ CREATE TABLE admin (
 );
 //todos los estados 1,2,3,4,5
 
+-- --insert into users (username,password) values ('CAMARERO',123456),('COCINERO',234567),('ADMINISTRACION',345678);
+-- --insert into chef(id_user) values (2);
+-- --insert into waiter(id_user) values(1);
+-- --insert into admin(id_user) values(3);
+-- select * from users;
+-- select * from chef;
+-- select * from waiter;
+-- select * from admin;
+
 CREATE TABLE STATUS (
     id_STATUS SERIAL NOT NULL,
 	DESCRIPTION VARCHAR(150),
