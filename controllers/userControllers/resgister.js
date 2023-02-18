@@ -7,7 +7,10 @@ const registerController = async (req, res) => {
   var BCRYP_SALT_RAUNDS = 10;
 
   const { username, password, name } = req.body;
-  if (username && password && name) {
+
+  const ifExist = await UserManager.signIn(username);
+
+  if (!ifExist) {
     const passwordCryp = await bcrypt.hash(password, BCRYP_SALT_RAUNDS);
 
     await UserManager.register(username.toLowerCase(), passwordCryp);
@@ -20,8 +23,9 @@ const registerController = async (req, res) => {
     const client = await ClientsManager.getClient();
 
     res.status(201).json({ token, name: client.name, id_user: client.id_user });
-  } else {
-    res.status(400).end();
+  } else{
+    const error =[{Msg:"usuario ya existente"}]
+      res.status(400).json(error)
   }
 };
 
