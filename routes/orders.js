@@ -1,6 +1,5 @@
 var router = require("express").Router();
 const { body, validationResult } = require("express-validator");
-const validateEmail = require("../middlewares/emailValidator")
 
 router.get(
   "/get-orders",
@@ -13,11 +12,10 @@ router.post(
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        const errorsMsg = errors.array()
+      const errorsMsg = errors.array();
       res.status(400).json({ errorsMsg: errorsMsg });
-      console.log(errorsMsg);
-    }else{
-        next()
+    } else {
+      next();
     }
   },
   require("../controllers/ordersControllers/createOrder")
