@@ -8,7 +8,7 @@ router.get(
 router.get("/:id", require("../controllers/ordersControllers/getIdOrder"));
 router.post(
   "/create-order",
-  body("email", "Ingrese un email valido").exists().isEmail(),
+  body("email", "Ingrese un email valido").isEmail(),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
