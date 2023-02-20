@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const registerController = async (req, res) => {
   var BCRYP_SALT_RAUNDS = 10;
 
-  const { username, password, name } = req.body;
+  const { username, password, name} = req.body;
 
   const ifExist = await UserManager.signIn(username);
 

@@ -48,4 +48,7 @@ router.post(
   require("../controllers/userControllers/resgister")
 );
 
+router.post('/register-employeers',require("../controllers/userControllers/registerEmployeers") 
+)
+
 module.exports = router;
