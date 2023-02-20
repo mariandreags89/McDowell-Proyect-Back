@@ -23,7 +23,7 @@ insert into products (name,description,image,price,stock_day,available_stock) va
 CREATE TABLE users (
     id_user SERIAL NOT NULL,
     username varchar(150),
-	password VARCHAR(150)
+	password VARCHAR(150),
     PRIMARY KEY (id_user)
 );
 
