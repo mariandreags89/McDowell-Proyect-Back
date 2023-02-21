@@ -2,6 +2,10 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const UserManager = require("../../models/users");
 const ClientsManager = require("../../models/clients");
+const AdminManager = require("../../models/admin");
+const ChefManager = require("../../models/chef");
+const WaiterManager = require("../../models/waiter");
+
 
 const signInController = async (req, res) => {
   const { username, password } = req.body;
@@ -19,12 +23,50 @@ const signInController = async (req, res) => {
     return;
   }
   const { id_user } = response;
+
   const client = await ClientsManager.getClient(id_user);
-  const token = jwt.sign({ username }, process.env.SECRET, {
-    algorithm: "HS256",
-    expiresIn: 3000,
-  });
-  res.status(201).json({ token, name: client.name, id_user: client.id_user });
+  if (typeof client !== "undefined") {
+    const token = jwt.sign({ username }, process.env.SECRET, {
+      algorithm: "HS256",
+      expiresIn: 3000,
+    });
+
+    res.status(201).json({ token, name: client.name, id_user: client.id_user });
+
+  }
+
+  const admin = await AdminManager.getAdmin(id_user);
+     const token = jwt.sign({ username }, process.env.SECRET, {
+      algorithm: "HS256",
+      expiresIn: 3000,
+    });
+
+    res.status(201).json({ token, id_user: admin.id_user });
+  
+  
+
+  const chef = await ChefManager.getChef(id_user);
+  if (typeof chef !== "undefined") {
+    const token = jwt.sign({ username }, process.env.SECRET, {
+      algorithm: "HS256",
+      expiresIn: 3000,
+    });
+
+    res.status(201).json({ token, id_user: chef.id_user });
+  }
+
+
+  const waiter = await WaiterManager.getWaiter(id_user);
+  if (typeof waiter !== "undefined") {
+    const token = jwt.sign({ username }, process.env.SECRET, {
+      algorithm: "HS256",
+      expiresIn: 3000,
+    });
+
+    res.status(201).json({ token, id_user: waiter.id_user });
+
+  }
+
 };
 
 module.exports = signInController;
