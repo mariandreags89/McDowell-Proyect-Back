@@ -3,8 +3,8 @@ const { body, validationResult } = require("express-validator");
 const UserManager = require("../models/users");
 
 router.post("/signin",
-  body("username","Introduzca un email valido").isEmail(),
-  body("password","Introduzca una contraseña valida").exists(),
+  body("username", "Introduzca un usuario valido").exists(),
+  body("password", "Introduzca una contraseña valida").exists(),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -14,7 +14,7 @@ router.post("/signin",
       next();
     }
   },
-require("../controllers/userControllers/signIn"));
+  require("../controllers/userControllers/signIn"));
 
 router.post(
   "/register",
@@ -48,7 +48,7 @@ router.post(
   require("../controllers/userControllers/resgister")
 );
 
-router.post('/register-employeers',require("../controllers/userControllers/registerEmployeers") 
+router.post('/register-employeers', require("../controllers/userControllers/registerEmployeers")
 )
 
 module.exports = router;
