@@ -1,11 +1,12 @@
 var router = require("express").Router();
 const { body, validationResult } = require("express-validator");
 
-router.get(
-  "/get-orders",
-  require("../controllers/ordersControllers/getOrders")
-);
+router.get( "/get-orders",  require("../controllers/ordersControllers/getOrders"));
+
 router.get("/:id", require("../controllers/ordersControllers/getIdOrder"));
+
+router.get("/ordersDetail/:id_status", require("../controllers/ordersControllers/getOrdersDetail"));
+
 router.post(
   "/create-order",
   body("email", "Ingrese un email valido").isEmail(),
@@ -20,18 +21,26 @@ router.post(
   },
   require("../controllers/ordersControllers/createOrder")
 );
+
+
 router.post(
   "/create-product-order",
   require("../controllers/ordersControllers/createProductOrder")
 );
+
+
 router.post(
   "/create-order-status",
   require("../controllers/ordersControllers/createOrderStatus")
 );
+
+
 router.patch(
   "/set-order/:id",
   require("../controllers/ordersControllers/setOrders")
 );
+
+//cambio estado por id pedido al siguiente
 router.patch(
   "/status/:id",
   require("../controllers/statusControllers/pacthStatusOrder")

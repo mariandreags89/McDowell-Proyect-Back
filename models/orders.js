@@ -19,11 +19,13 @@ class Order {
 const pgClient = startConnection();
 
 class OrdersManager {
+
   static async getAll() {
     const queryResponse = await pgClient.query("select * from orders");
     const orders = convertOrderDataToObjects(queryResponse.rows);
     return orders;
   }
+
   static async getId(id) {
     const queryResponse = await pgClient.query(
       "select * from orders where id_num_order=$1",
@@ -33,7 +35,8 @@ class OrdersManager {
     return orders;
   }
   
-  
+ 
+
     static async createOrder(dataOrder) {
         var today = new Date();
         var now = today.toLocaleString().split(',')[0]
