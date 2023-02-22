@@ -36,14 +36,17 @@ const signInController = async (req, res) => {
   }
 
   const admin = await AdminManager.getAdmin(id_user);
-     const token = jwt.sign({ username }, process.env.SECRET, {
+  if (typeof admin !== "undefined") {
+    const token = jwt.sign({ username }, process.env.SECRET, {
       algorithm: "HS256",
       expiresIn: 3000,
     });
 
     res.status(201).json({ token, id_user: admin.id_user });
-  
-  
+
+  }
+
+
 
   const chef = await ChefManager.getChef(id_user);
   if (typeof chef !== "undefined") {
