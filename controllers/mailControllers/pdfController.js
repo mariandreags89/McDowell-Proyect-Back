@@ -37,8 +37,8 @@ const getpdfOrder = async (req, res) => {
       <td>${formateador.format(producto.price)}</td>
       <td>${formateador.format(totalProducto)}</td>
       </tr>`;
-  }
-   date = new Date().toISOString().slice(0, 10);
+    };
+  date = new Date().toISOString().slice(0, 10);
   const [yyyy,mm,dd] = date.split('-');
   const formattedDate = `${dd}/${mm}/${yyyy}`;
   subtotal = (subtotal/1.10);
@@ -54,14 +54,15 @@ const getpdfOrder = async (req, res) => {
   contenidoHtml = contenidoHtml.replace("{{subtotal}}", formateador.format(subtotal));
   contenidoHtml = contenidoHtml.replace("{{impuestos}}", formateador.format(impuestos));
   contenidoHtml = contenidoHtml.replace("{{total}}", formateador.format(total));
+
+
   pdf.create(contenidoHtml).toFile(`./pdf/ticket_${id}.pdf`,  function(err, res) {
-    if (err){
-        console.log("Error creando PDF: " +err);
-    } else {
-        postEmailOrder({id});
-    }
-    
-});
+        if (err){
+            console.log("Error creando PDF: " +err);
+        } else {
+            postEmailOrder({id});
+        };
+    });
 };
 
 
