@@ -6,7 +6,6 @@ const AdminManager = require("../../models/admin");
 const ChefManager = require("../../models/chef");
 const WaiterManager = require("../../models/waiter");
 
-
 const signInController = async (req, res) => {
   const { username, password } = req.body;
   const response = await UserManager.signIn(username.toLowerCase());
@@ -32,7 +31,6 @@ const signInController = async (req, res) => {
     });
 
     res.status(201).json({ token, name: client.name, id_user: client.id_user });
-
   }
 
   const admin = await AdminManager.getAdmin(id_user);
@@ -43,10 +41,7 @@ const signInController = async (req, res) => {
     });
 
     res.status(201).json({ token, id_user: admin.id_user });
-
   }
-
-
 
   const chef = await ChefManager.getChef(id_user);
   if (typeof chef !== "undefined") {
@@ -58,18 +53,15 @@ const signInController = async (req, res) => {
     res.status(201).json({ token, id_user: chef.id_user });
   }
 
-
   const waiter = await WaiterManager.getWaiter(id_user);
   if (typeof waiter !== "undefined") {
-    const token = jwt.sign({ username }, process.env.SECRET, {
+    const token = jwt.sign({ id_user }, process.env.SECRET, {
       algorithm: "HS256",
       expiresIn: 3000,
     });
 
     res.status(201).json({ token, id_user: waiter.id_user });
-
   }
-
 };
 
 module.exports = signInController;
