@@ -49,6 +49,7 @@ static async getIdOrder(){
     return pdfs;
 }
 
+
 static async getEmail(id){
   const dato= await pgClient.query("select order_mail from orders where id_num_order=$1",[id]);
   const email=dato.rows[0].order_mail;

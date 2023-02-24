@@ -1,6 +1,6 @@
 startConnection = require("./connection");
 
-class Status {2
+class Status {
     constructor( 
       id_status=null,
       description=null,
@@ -18,7 +18,7 @@ class statusManager {
       const queryResponse = await pgClient.query("select * from status");
       const status = convertStatusDataToObjects(queryResponse.rows);
       return status;
-    }
+    } 
 
   static async getStatus(in_status) {
       const myquery=`select * from status WHERE id_status in (${in_status})`;

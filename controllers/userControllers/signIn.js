@@ -55,7 +55,7 @@ const signInController = async (req, res) => {
 
   const waiter = await WaiterManager.getWaiter(id_user);
   if (typeof waiter !== "undefined") {
-    const token = jwt.sign({ username }, process.env.SECRET, {
+    const token = jwt.sign({ id_user }, process.env.SECRET, {
       algorithm: "HS256",
       expiresIn: 3000,
     });

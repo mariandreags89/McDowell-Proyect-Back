@@ -14,6 +14,7 @@ const postEmailOrder = async ({id}) => {
     // const dato= await pgClient.query("select order_mail from orders where id_num_order=$1",[id]);
     // const email=dato.rows[0].order_mail;
     const email = await PdfMailManager.getEmail(id)
+
     // Notificación de formulario - cliente.
     let notificaciones = [
         {
@@ -50,7 +51,7 @@ const postEmailOrder = async ({id}) => {
             <div style="padding: 20px 10px 20px 10px;">
                 <!-- Imagen inicial -->
                 <div style="background-color: #000000; padding: 10px 0px 10px 0px; width: 100%; text-align: center;">
-                    <img src="cid:McDowell" alt="" style="width: 200px; height: 60px;">
+                    <img src="cid:McDowell" alt="" style="width: 90px; height: 90px;">
                 </div>
     
                 <!-- Contenido principal -->
@@ -109,7 +110,7 @@ const postEmailOrder = async ({id}) => {
                 cid: 'McDowell' 
                 }
             ] 
-    })
+    });
 
     //console.log('Message sent: %s', info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
