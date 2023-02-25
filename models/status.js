@@ -21,7 +21,7 @@ class statusManager {
     }
 
   static async getStatus(in_status) {
-      const myquery=`select * from status WHERE id_status in (${in_status})`;
+      const myquery=`select * from status WHERE id_status in (${in_status}) order by id_status`;
        //console.log(myquery);
       const queryResponse = await pgClient.query(myquery);
       const status = convertStatusDataToObjects(queryResponse.rows);
