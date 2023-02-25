@@ -40,7 +40,7 @@ const signInController = async (req, res) => {
       expiresIn: 3000,
     });
 
-    res.status(201).json({ token, id_user: admin.id_user, username : username });
+    res.status(201).json({ token, id_user: admin.id_user, username : username, role: "admin" });
   }
 
   const chef = await ChefManager.getChef(id_user);
@@ -50,7 +50,7 @@ const signInController = async (req, res) => {
       expiresIn: 3000,
     });
 
-    res.status(201).json({ token, id_user: chef.id_user , username : username});
+    res.status(201).json({ token, id_user: chef.id_user , username : username, role: "chef"});
   }
 
   const waiter = await WaiterManager.getWaiter(id_user);
@@ -60,7 +60,7 @@ const signInController = async (req, res) => {
       expiresIn: 3000,
     });
 
-    res.status(201).json({ token, id_user: waiter.id_user, username : username});
+    res.status(201).json({ token, id_user: waiter.id_user, username : username, role: "waiter" });
   }
 };
 

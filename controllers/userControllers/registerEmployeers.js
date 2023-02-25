@@ -14,7 +14,7 @@ const registerControllerEmployeers = async (req, res) => {
 
   if (!ifExist) {
     const passwordCryp = await bcrypt.hash(password, BCRYP_SALT_RAUNDS);
-    console.log(passwordCryp);
+    
     await UserManager.register(username.toLowerCase(), passwordCryp);
 
     if (role === "waiter") {
