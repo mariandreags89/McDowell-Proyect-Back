@@ -1,7 +1,8 @@
 var router = require("express").Router();
-const { getAllMenus, getSigleMenu } = require("../controllers/menusController");
 
-router.get("/all-menus", getAllMenus);
-router.get("/:id", getSigleMenu);
+
+router.get("/all-products", require('../controllers/productControllers/getAllProducts'));
+router.get("/:id", require('../controllers/productControllers/getSingleProduct'));
+router.patch("/setStock", require('../controllers/productControllers/patchProduct'))
 
 module.exports = router;
