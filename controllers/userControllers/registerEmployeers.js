@@ -14,7 +14,7 @@ const registerControllerEmployeers = async (req, res) => {
 
   if (!ifExist) {
     const passwordCryp = await bcrypt.hash(password, BCRYP_SALT_RAUNDS);
-    console.log(passwordCryp);
+    
     await UserManager.register(username.toLowerCase(), passwordCryp);
 
     if (role === "waiter") {
@@ -24,12 +24,8 @@ const registerControllerEmployeers = async (req, res) => {
     } else if (role === "admin") {
       await AdminManager.register();
     }
-    const token = jwt.sign({ username }, process.env.SECRET, {
-      algorithm: "HS256",
-      expiresIn: 3000,
-    });
-
-    res.status(201).json({ token });
+    
+    res.status(201).json({Msg: "se ha creado el usuario correctamente"});
   } else {
     const error = [{ Msg: "usuario ya existente" }];
     res.status(400).json(error);
