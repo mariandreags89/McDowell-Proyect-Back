@@ -7,7 +7,7 @@ CREATE TABLE PRODUCTS (
 	image varchar(155),
     price float,
     stock_day INT,
-	available_stock INT
+	available_stock INT,
     PRIMARY KEY (id_product)
 );
 
