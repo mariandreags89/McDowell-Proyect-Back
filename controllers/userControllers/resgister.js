@@ -25,7 +25,7 @@ const registerController = async (req, res) => {
     res.status(201).json({ token, name: client.name, id_user: client.id_user });
   } else{
     const error =[{Msg:"usuario ya existente"}]
-      res.status(400).json(error)
+      res.status(406).json(error)
   }
 };
 
