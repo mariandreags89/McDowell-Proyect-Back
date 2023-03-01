@@ -40,30 +40,20 @@ CREATE TABLE waiter (
     id_user int references users(id_user),
     PRIMARY KEY (id_waiter)
 );
-//estados 3,4,5
+
 
 CREATE TABLE chef (
 	id_chef SERIAL not null,
     id_user int references users(id_user),
     PRIMARY KEY (id_chef)
 );
-//estados 1,2,3
+
 
 CREATE TABLE admin (
 	id_admin SERIAL not null,
     id_user int references users(id_user),
     PRIMARY KEY (id_admin)
 );
-//todos los estados 1,2,3,4,5
-
--- --insert into users (username,password) values ('CAMARERO',123456),('COCINERO',234567),('ADMINISTRACION',345678);
--- --insert into chef(id_user) values (2);
--- --insert into waiter(id_user) values(1);
--- --insert into admin(id_user) values(3);
--- select * from users;
--- select * from chef;
--- select * from waiter;
--- select * from admin;
 
 CREATE TABLE STATUS (
     id_STATUS SERIAL NOT NULL,
@@ -98,6 +88,18 @@ CREATE TABLE order_status(
 	id_order int references orders(id_num_order),
 	id_status int references status(id_status)
 );
+
+
+//todos los estados 1,2,3,4,5
+
+-- --insert into users (username,password) values ('CAMARERO',123456),('COCINERO',234567),('ADMINISTRACION',345678);
+-- --insert into chef(id_user) values (2);
+-- --insert into waiter(id_user) values(1);
+-- --insert into admin(id_user) values(3);
+-- select * from users;
+-- select * from chef;
+-- select * from waiter;
+-- select * from admin;
 
 
 ---Ejemplo creacion con relaciones

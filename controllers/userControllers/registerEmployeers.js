@@ -28,7 +28,7 @@ const registerControllerEmployeers = async (req, res) => {
     res.status(201).json({Msg: "se ha creado el usuario correctamente"});
   } else {
     const error = [{ Msg: "usuario ya existente" }];
-    res.status(400).json(error);
+    res.status(406).json(error);
   }
 };
 
