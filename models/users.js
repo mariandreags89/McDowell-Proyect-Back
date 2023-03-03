@@ -21,7 +21,6 @@ class UserManager {
       return user;
     }
   
-    // estatico para iniciar sesion 
     static async signIn(username) {
       const queryResponse = await pgClient.query('SELECT * FROM users WHERE username=$1', [username])
       if (!queryResponse){
@@ -30,12 +29,7 @@ class UserManager {
       const user = convertUserDataToObjects(queryResponse.rows);
       return user[0];
     }
-    
-    /*static async signIn(id) {
-      const queryResponse = await pgClient.query("SELECT * FROM products WHERE id_product=$1",[id]);
-      const user = convertUserDataToObjects(queryResponse.rows);
-      return user;
-    } */
+  
 
     static async register(username, password){
       const queryResponse = await pgClient.query('INSERT INTO users (username, password) VALUES ($1,$2)', [username, password])

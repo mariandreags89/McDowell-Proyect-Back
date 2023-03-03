@@ -39,12 +39,8 @@ class orderStatusManager {
  
     static async pacthStatus(id) {
       const queryStatus = await pgClient.query("SELECT id_status FROM order_status where id_order=$1",[id]);
-      //let status = convertOrderStatusDataToObjects(queryStatus.rows);
       let status=queryStatus.rows[0].id_status;
-      //console.log(queryStatus.rows[0].id_status, id);
-      
       let other = status+1;
-    
       const newStatus = await  pgClient.query( "UPDATE order_status SET id_status=$1 WHERE id_order=$2",
       [other , id] );
       return newStatus;
