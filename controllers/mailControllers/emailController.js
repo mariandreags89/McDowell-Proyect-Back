@@ -6,13 +6,6 @@ const PdfMailManager = require('../../models/pdfMail');
 
 const postEmailOrder = async ({id}) => {
     
-    
-    // const ultimo= await pgClient.query("select max(id_num_order) from orders");
-    // const id=ultimo.rows[0].max;
-    //const id = await PdfMailManager.getIdOrder()
-    
-    // const dato= await pgClient.query("select order_mail from orders where id_num_order=$1",[id]);
-    // const email=dato.rows[0].order_mail;
     const email = await PdfMailManager.getEmail(id)
 
     // Notificación de formulario - cliente.
@@ -25,62 +18,13 @@ const postEmailOrder = async ({id}) => {
     ]
 
      // Plantilla de correo
-    contentHTML = `<!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-        <style>
-            p, a, h1, h2, h3, h4, h5, h6 {font-family: 'Roboto', sans-serif !important;}
-            h1{ font-size: 30px !important;}
-            h2{ font-size: 25px !important;}
-            h3{ font-size: 18px !important;}
-            h4{ font-size: 16px !important;}
-            p, a{font-size: 15px !important;}
-            .afooter{
-                color: #ffffff !important; 
-                text-decoration: none;
-                font-size: 13px !important;
-            }
-        </style>
-    </head>
-    <body>
-        <div style="width: 100%; background-color: #e3e3e3;">
-            <div style="padding: 20px 10px 20px 10px;">
-                <!-- Imagen inicial -->
-                <div style="background-color: #000000; padding: 10px 0px 10px 0px; width: 100%; text-align: center;">
-                    <img src="cid:McDowell" alt="" style="width: 90px; height: 90px;">
-                </div>
-    
-                <!-- Contenido principal -->
-                <div style="background-color: #ffffff; padding: 20px 0px 5px 0px; width: 100%; text-align: center;">
-                    <h1>${notificaciones[0].titulo}</h1>
-                    <p>${notificaciones[0].notificacion}</p>
-    
-                    <!-- Gracias -->
-                    <p style="margin-bottom: 50px;"><i>Atentamente:</i><br>Equipo McDowell</p>
-
-                </div>
-            
-                <!-- Footer -->
-                <div style="background-color: #282828; color: #ffffff; padding: 10px 0px 10px 0px; width: 100%; text-align: center;">
-                        <h4>Soporte</h4>
-                        <p style="font-size: 13px; padding: 0px 20px 0px 20px;">
-                            Comunícate con nosotros por los siguientes medios:<br>
-                            Correo: <a class="afooter" href="mailto:mcdowellproyecto@gmail.com">mcdowellproyecto@gmail.com</a><br>
-                        </p>
-                        <p style="background-color: black; padding: 10px 0px 10px 0px; font-size: 12px !important;">
-                            © 2023 McDowell, todos los derechos reservados.
-                        </p>
-                </div>  
-    
-            </div>
-        </div>
-    </body>
-    </html>`;
-       
+     const fs = require("fs");
+     const ubicacionPlantilla = require.resolve("../../html/email.html");
+     let contenidoHtml = fs.readFileSync(ubicacionPlantilla, 'utf8');
+     contenidoHtml = contenidoHtml.replace("{{titulo}}", notificaciones[0].titulo);
+     contenidoHtml = contenidoHtml.replace("{{notificacion}}", notificaciones[0].notificacion);
+     
+           
     // Configurar el correo electrónico
     var transport = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -97,7 +41,7 @@ const postEmailOrder = async ({id}) => {
         from: '"McDowell Proyecto" <mcdowellproyecto@gmail.com>', 
         to: `${email}`,
         subject: `Envio ticket numero: ${id}`,
-        html: contentHTML,
+        html: contenidoHtml,
        attachments: [
             {
                 filename: `ticket_${id}.pdf`,
@@ -111,15 +55,6 @@ const postEmailOrder = async ({id}) => {
                 }
             ] 
     });
-
-    //console.log('Message sent: %s', info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-    // Preview only available when sending through an Ethereal account
-    //console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-
-    //res.status(200).send({msg:"correo enviado"});
 };
 
 
