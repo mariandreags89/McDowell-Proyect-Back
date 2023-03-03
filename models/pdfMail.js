@@ -1,7 +1,6 @@
 const startConnection = require("./connection");
 
 
-// definimos tabla
 class pdf {
     constructor(
       id_order=null,
