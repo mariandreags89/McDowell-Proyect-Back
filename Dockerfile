@@ -14,6 +14,13 @@ RUN npm install
 
 # Bundle app source
 COPY . .
+ENV USERBD ""
+ENV HOSTBD ""
+ENV NAMEBD ""
+ENV PASSWORD ""
+ENV USERMAIL ""
+ENV PASSMAIL ""
+ENV SECRET ""
 
 EXPOSE 8080
 CMD ["node","index.js"]
